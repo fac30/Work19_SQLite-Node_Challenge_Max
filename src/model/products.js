@@ -15,4 +15,15 @@ function listProducts() {
     return select_products.all();
 }
 
-module.exports = { listProducts };
+function searchProducts(string) {
+    const search_products = db.prepare(/*sql*/ `
+        SELECT
+            id,
+            name
+        FROM products
+        WHERE name LIKE ?
+    `);
+    return search_products.all("%" + string + "%");
+}
+
+module.exports = { listProducts, searchProducts };
