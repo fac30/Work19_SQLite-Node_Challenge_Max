@@ -29,10 +29,13 @@ function searchProducts(string) {
 function getProduct(id) {
     const search_products = db.prepare(/*sql*/ `
         SELECT
-            id,
-            name
-        FROM products
-        WHERE id = ?
+            products.id AS id,
+            products.name AS name,
+            categories.name AS category_name,
+            categories.description AS category_description
+        FROM products JOIN categories
+        ON products.category_id = categories.id
+        AND products.id = ?
     `);
     return search_products.get(id);
 }
