@@ -26,4 +26,15 @@ function searchProducts(string) {
     return search_products.all("%" + string + "%");
 }
 
-module.exports = { listProducts, searchProducts };
+function getProduct(id) {
+    const search_products = db.prepare(/*sql*/ `
+        SELECT
+            id,
+            name
+        FROM products
+        WHERE id = ?
+    `);
+    return search_products.get(id);
+}
+
+module.exports = { listProducts, searchProducts, getProduct };
